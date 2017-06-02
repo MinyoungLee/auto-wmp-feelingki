@@ -1,0 +1,50 @@
+# default setting
+
+---
+spring:
+  profiles: dev
+  h2:
+    console:
+      enabled: true
+  jpa:
+    generate-ddl: true
+  datasource:
+    url: jdbc:h2:~/test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+
+
+
+
+
+server:
+  port: 7788
+
+# LOGGING
+logging:
+  level:
+    kr.yerina.wmp.autonomousRegistration: DEBUG
+    ch.qos.logback.classic: DEBUG
+    org.hibernate: DEBUG
+
+
+config:
+  text: hello dev
+
+---
+spring:
+  profiles: prod
+
+server:
+  port: 8008
+
+# LOGGING
+logging:
+  level: INFO
+
+
+config:
+  text: hello prod
+

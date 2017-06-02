@@ -1,0 +1,21 @@
+
+test: dev default
+# default setting
+
+---
+spring:
+  profiles : dev
+
+config:
+  text: properties dev
+
+test: dev test
+---
+spring:
+  profiles : prod
+
+config:
+  text: properties prod
+
+test: dev test
+
