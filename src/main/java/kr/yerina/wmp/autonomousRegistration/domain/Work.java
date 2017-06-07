@@ -16,13 +16,18 @@ public class Work {
     @Id
     @GeneratedValue
     @Getter
-    int id;
+    private int id;
     @Getter @Setter
-    String code;        //프로젝트 명
+    private String code;        //프로젝트 명
     @Getter @Setter
-    Long inputValue;    //작업시간
+    private Long inputValue;    //작업시간
     @Getter @Setter
-    String workItem;    //작업내용
+    private String workItem;    //작업내용
     @Getter @Setter
-    String secondCode;  //수행프로젝트명
+    private String secondCode;  //수행프로젝트명
+
+    @Getter @Setter
+    private String name;        //wmp id
+    @Getter @Setter
+    private String password;    //wmp password
 }

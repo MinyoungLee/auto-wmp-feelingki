@@ -4,10 +4,48 @@
     <meta charset="UTF-8"/>
     <title>Title</title>
 </head>
+<style>
+    table#t01 tr:nth-child(even) {
+        background-color: #eee;
+    }
+    table#t01 tr:nth-child(odd) {
+        background-color:#fff;
+    }
+    table#t01 th {
+        background-color: black;
+        color: white;
+    }
+    table#t01 td {
+        text-align: center;
+    }
+</style>
 <body>
-<h1>hello world</h1>
+<h1>WMP 자동 등록 리스트</h1>
+<h2>매일 오후 5시 30분 WMP 자동 등록 처리됨</h2>
+<input type="button" value="등록하기"/>
+<h2></h2>
+    <table style="width:100%" id="t01">
+        <tr>
+            <th>No.</th>
+            <th>아이디</th>
+            <th>프로젝트 코드</th>
+            <th>작업시간</th>
+            <th>작업내용</th>
+            <th>수행 프로젝트</th>
+            <th>삭제</th>
+        </tr>
+        <th:block th:each="work : ${workList}">
+            <tr>
+                <td th:text="${work.id}">...</td>
+                <td>아이디</td>
+                <td th:text="${work.code}">...</td>
+                <td th:text="${work.secondCode}">...</td>
+                <td th:text="${work.inputValue}">...</td>
+                <td th:text="${work.workItem}">...</td>
+                <td><input type="button" value="삭제"></td>
+            </tr>
+        </th:block>
 
-<h2 th:text="${greeting}">Title</h2>
-
+    </table>
 </body>
 </html>

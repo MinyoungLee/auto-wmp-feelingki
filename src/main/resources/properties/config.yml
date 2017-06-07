@@ -1,21 +1,16 @@
 
-test: dev default
-# default setting
+#profiles 구분 되지 않는 문제 찾아봐야함.
+
+spring:
+  profiles: dev
+
+test: devtest
 
 ---
 spring:
-  profiles : dev
+  profiles: prod
 
-config:
-  text: properties dev
+test: prodtest
 
-test: dev test
----
-spring:
-  profiles : prod
 
-config:
-  text: properties prod
-
-test: dev test
 

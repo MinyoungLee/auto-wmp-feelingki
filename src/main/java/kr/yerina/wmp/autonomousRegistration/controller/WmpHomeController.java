@@ -3,7 +3,7 @@ package kr.yerina.wmp.autonomousRegistration.controller;
 
 import kr.yerina.wmp.autonomousRegistration.domain.Work;
 import kr.yerina.wmp.autonomousRegistration.properties.MyConfiguration;
-import kr.yerina.wmp.autonomousRegistration.repository.HelloRepository;
+import kr.yerina.wmp.autonomousRegistration.repository.WorksRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,28 +21,23 @@ public class WmpHomeController {
     private MyConfiguration myConfiguration;
 
     @Autowired
-    private HelloRepository helloRepository;
+    private WorksRepository worksRepository;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     String home(Model model){
-        model.addAttribute("greeting","인사말");
-        log.debug("[config load test text ][{}]",myConfiguration);
+
+        model.addAttribute("workList",worksRepository.findAll());
+
         Work work = new Work();
         work.setCode("12345");
         work.setInputValue(8L);
         work.setWorkItem("내용");
         work.setSecondCode("12345");
-        helloRepository.save(work);
-        log.debug("[length][{}]",helloRepository.findAll().size());
-        log.debug(String.valueOf(helloRepository.findAll()));
+        worksRepository.save(work);
+        log.debug("[length][{}]", worksRepository.findAll().size());
+        log.debug(String.valueOf(worksRepository.findAll()));
         return "home";
     }
 
-    @GetMapping(value = "/hello")
-    String hellow(Model model){
-        model.addAttribute("greeting","hello world");
-        log.debug("[config load test text ][{}]",myConfiguration);
-        return "home";
-    }
 
 }

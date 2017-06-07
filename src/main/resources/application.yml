@@ -17,8 +17,6 @@ spring:
 
 
 
-
-
 server:
   port: 7788
 
