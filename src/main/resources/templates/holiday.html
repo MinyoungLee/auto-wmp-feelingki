@@ -34,6 +34,7 @@
         </tr>
         <th:block th:each="holiday : ${holidayList}">
             <tr>
+                <td th:text="${holiday.id}">...</td>
                 <td th:text="${holiday.holidayDate}">...</td>
                 <td>
                     <form action="#" th:action="@{/delectHoliday}" method="get">

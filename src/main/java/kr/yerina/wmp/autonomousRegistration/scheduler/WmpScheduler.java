@@ -36,9 +36,9 @@ public class WmpScheduler {
     @Autowired
     private HolidayRepository holidayRepository;
 
-    //월~금 오후 5시 30분
+    //월~금 오후 5시 10분
     //초,분,시,일,월,요일, (년)
-    @Scheduled(cron = "0 35 9 ? * MON-FRI")
+    @Scheduled(cron = "0 10 17 ? * MON-FRI")
     public void workProc(){
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         RestTemplate restTemplate = new RestTemplate();
@@ -52,25 +52,27 @@ public class WmpScheduler {
         String addWorkUrl = "http://wmp.feelingk.com/works/add/Love5757?targetDate="+targetDate;
 
         List<Holiday> holidayList = holidayRepository.findAll();
-        if(!StringUtils.isEmpty(holidayList) && holidayList.size() > 0){
-            Map<String, String> user = new HashMap<>();
-            List<Work> workList = worksRepository.findAll();
-            log.info("[scheduled][{}]",workList);
-            if(!StringUtils.isEmpty(workList) && workList.size() > 0){
-            for (Work work : workList) {
-                user.put("name", work.getName());
-                user.put("password", work.getPassword());
-                HttpEntity param = new HttpEntity(user, requestHeaders);
-                String response = restTemplate.postForObject(url, param, String.class);
-                log.debug("[로그인][{}]",response);
+        log.info("[holidayList][{}]", holidayList);
 
-                HttpEntity addWorkParam = new HttpEntity(work, requestHeaders);
-                String addWorkResponse = restTemplate.postForObject(addWorkUrl, addWorkParam, String.class);
-                log.debug("[업무 등록 응답][{}]",addWorkResponse);
+        //오늘 날짜가 holiday에 없어야함.
+        if(!holidayList.contains(targetDate)){
+            if(!StringUtils.isEmpty(holidayList) && holidayList.size() > 0){
+                Map<String, String> user = new HashMap<>();
+                List<Work> workList = worksRepository.findAll();
+                log.info("[scheduled][{}]",workList);
+                if(!StringUtils.isEmpty(workList) && workList.size() > 0){
+                for (Work work : workList) {
+                    user.put("name", work.getName());
+                    user.put("password", work.getPassword());
+                    HttpEntity param = new HttpEntity(user, requestHeaders);
+                    String response = restTemplate.postForObject(url, param, String.class);
+
+                    HttpEntity addWorkParam = new HttpEntity(work, requestHeaders);
+                    String addWorkResponse = restTemplate.postForObject(addWorkUrl, addWorkParam, String.class);
+                    }
                 }
             }
         }
-
     }
 
 }
