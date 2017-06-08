@@ -56,11 +56,10 @@ public class WmpScheduler {
 
         //오늘 날짜가 holiday에 없어야함.
         if(!holidayList.contains(targetDate)){
-            if(!StringUtils.isEmpty(holidayList) && holidayList.size() > 0){
-                Map<String, String> user = new HashMap<>();
-                List<Work> workList = worksRepository.findAll();
-                log.info("[scheduled][{}]",workList);
-                if(!StringUtils.isEmpty(workList) && workList.size() > 0){
+            Map<String, String> user = new HashMap<>();
+            List<Work> workList = worksRepository.findAll();
+            log.info("[scheduled][{}]",workList);
+            if(!StringUtils.isEmpty(workList) && workList.size() > 0){
                 for (Work work : workList) {
                     user.put("name", work.getName());
                     user.put("password", work.getPassword());
@@ -69,7 +68,6 @@ public class WmpScheduler {
 
                     HttpEntity addWorkParam = new HttpEntity(work, requestHeaders);
                     String addWorkResponse = restTemplate.postForObject(addWorkUrl, addWorkParam, String.class);
-                    }
                 }
             }
         }
