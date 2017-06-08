@@ -1,3 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+mainClassName = 'kr.yerina.wmp.autonomousRegistration.AutonomousRegistrationApplication'
+sourceCompatibility = 1.8
+version = '0.0.1-SNAPSHOT'
+ext.packaging = 'jar'
+
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	springCloudVersion = 'Dalston.SR1'
+}
+
 buildscript {
 	ext {
 		springBootVersion = '1.5.3.RELEASE'
@@ -8,22 +27,6 @@ buildscript {
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
-}
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-
-repositories {
-	mavenCentral()
-}
-
-
-ext {
-	springCloudVersion = 'Dalston.SR1'
 }
 
 dependencies {

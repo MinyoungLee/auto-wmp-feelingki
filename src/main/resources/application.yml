@@ -35,6 +35,12 @@ config:
 spring:
   profiles: prod
 
+  datasource:
+    url: jdbc:mysql://192.168.0.250:3306/wmp
+    username: wmp
+    password: 1q2w3e4r5t
+    driver-class-name: com.mysql.jdbc.Driver
+
 server:
   port: 8008
 
