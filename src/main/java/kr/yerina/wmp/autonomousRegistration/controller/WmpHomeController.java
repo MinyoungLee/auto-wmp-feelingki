@@ -6,9 +6,12 @@ import kr.yerina.wmp.autonomousRegistration.properties.MyConfiguration;
 import kr.yerina.wmp.autonomousRegistration.repository.WorksRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by philip on 2017-05-31.
@@ -25,19 +28,29 @@ public class WmpHomeController {
 
     @GetMapping(value = "/list")
     String home(Model model){
-
         model.addAttribute("workList",worksRepository.findAll());
-
-        Work work = new Work();
-        work.setCode("12345");
-        work.setInputValue(8L);
-        work.setWorkItem("내용");
-        work.setSecondCode("12345");
-        worksRepository.save(work);
         log.debug("[length][{}]", worksRepository.findAll().size());
         log.debug(String.valueOf(worksRepository.findAll()));
         return "home";
     }
 
+
+    @PostMapping("/addWork")
+    String addWork(@ModelAttribute Work work){
+        log.debug("[add work requestBody][{}]",work);
+        if(!StringUtils.isEmpty(work)){
+            if(!StringUtils.isEmpty(work.getName()) && !StringUtils.isEmpty(work.getPassword())){
+                worksRepository.save(work);
+            }
+        }
+        return "redirect:/list";
+    }
+
+    @GetMapping("/delectWork")
+    String removeWork(@RequestParam(value = "id") int delectId){
+        log.debug("[delectId][{}]", delectId);
+        worksRepository.delete(delectId);
+        return "redirect:/list";
+    }
 
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<style>
+    table#t01 tr:nth-child(even) {
+        background-color: #eee;
+    }
+    table#t01 tr:nth-child(odd) {
+        background-color:#fff;
+    }
+    table#t01 th {
+        background-color: black;
+        color: white;
+    }
+    table#t01 td {
+        text-align: center;
+    }
+</style>
+<body>
+<h1>제외 날짜</h1>
+    <form action="#" th:action="@{/addHoliday}" method="post">
+        <input type="text" name="holidayDate" placeholder="ex) 2017-06-01"/>
+        <input type="submit" value="등록하기"/>
+    </form>
+<h2></h2>
+    <table style="width:100%" id="t01">
+        <tr>
+            <th>No.</th>
+            <th>날짜</th>
+            <th>삭제</th>
+        </tr>
+        <th:block th:each="holiday : ${holidayList}">
+            <tr>
+                <td th:text="${holiday.holidayDate}">...</td>
+                <td>
+                    <form action="#" th:action="@{/delectHoliday}" method="get">
+                        <input type="hidden" name="id" value="" th:value="${holiday.id}"/>
+                        <input type="submit" value="삭제"/>
+                    </form>
+                </td>
+            </tr>
+        </th:block>
+
+    </table>
+</body>
+</html>
