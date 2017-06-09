@@ -38,7 +38,8 @@ public class WmpScheduler {
 
     //월~금 오후 5시 10분
     //초,분,시,일,월,요일, (년)
-    @Scheduled(cron = "0 10 17 ? * MON-FRI", zone = "Asia/Seoul")
+    //@Scheduled(cron = "0 10 17 ? * MON-FRI", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 10 9 ? * *", zone = "Asia/Seoul")
     public void workProc(){
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         RestTemplate restTemplate = new RestTemplate();
