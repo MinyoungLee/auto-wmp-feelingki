@@ -1,5 +1,9 @@
 # default setting
 
+# LOGGING
+logging:
+  config: classpath:logback-spring.xml
+
 ---
 spring:
   profiles: dev
@@ -14,27 +18,13 @@ spring:
     password:
     driver-class-name: org.h2.Driver
 
-
-
-
 server:
   port: 7788
 
-# LOGGING
-logging:
-  level:
-    kr.yerina.wmp.autonomousRegistration: DEBUG
-    ch.qos.logback.classic: DEBUG
-    org.hibernate: DEBUG
-
-
-config:
-  text: hello dev
 
 ---
 spring:
   profiles: prod
-
   datasource:
     url: jdbc:mysql://192.168.0.250:3306/wmp
     username: wmp
@@ -44,11 +34,4 @@ spring:
 server:
   port: 8008
 
-# LOGGING
-logging:
-  level: INFO
-
-
-config:
-  text: hello prod
 

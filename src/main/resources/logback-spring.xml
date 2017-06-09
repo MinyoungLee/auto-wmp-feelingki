@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="10 seconds">
+
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <property name="LOG_DIR" value="/logs/wmp-auto/" />
+
+    <!-- without spring boot use this ->  p("server.type") -->
+    <if condition='"${spring.profiles.active}".contains("prod")'>
+        <then>	<property name="LOG_LEVEL" value="INFO" />	</then>
+        <else>	<property name="LOG_LEVEL" value="DEBUG" />	</else>
+    </if>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <param name="Target" value="System.out" />
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss SSS, Asia/Seoul}] [%thread] %-5p: %c - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="dailyRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <prudent>true</prudent>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/wmp-%d{yyyyMMdd, Asia/Seoul}.log</fileNamePattern>
+            <maxHistory>2</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss SSS, Asia/Seoul}] [%thread] %-5p: %c - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>10000</queueSize>
+        <includeCallerData>true</includeCallerData>
+        <!--max queue flush timeout-->
+        <maxFlushTime>360</maxFlushTime>
+        <appender-ref ref="dailyRolling" />
+    </appender>
+
+    <logger name="kr.yerina.wmp.autonomousRegistration" level="${LOG_LEVEL}">
+        <appender-ref ref="dailyRolling" />
+    </logger>
+
+    <logger name="org.springframework.web" level="${LOG_LEVEL}">
+        <appender-ref ref="dailyRolling" />
+    </logger>
+
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="dailyRolling" />
+    </root>
+
+
+</configuration>

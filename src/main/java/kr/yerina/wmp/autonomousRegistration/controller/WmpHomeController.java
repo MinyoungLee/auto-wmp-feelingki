@@ -26,7 +26,7 @@ public class WmpHomeController {
     @Autowired
     private WorksRepository worksRepository;
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/")
     String home(Model model){
         model.addAttribute("workList",worksRepository.findAll());
         log.debug("[length][{}]", worksRepository.findAll().size());
@@ -43,14 +43,14 @@ public class WmpHomeController {
                 worksRepository.save(work);
             }
         }
-        return "redirect:/list";
+        return "redirect:/";
     }
 
     @GetMapping("/delectWork")
     String removeWork(@RequestParam(value = "id") int delectId){
         log.debug("[delectId][{}]", delectId);
         worksRepository.delete(delectId);
-        return "redirect:/list";
+        return "redirect:/";
     }
 
 }

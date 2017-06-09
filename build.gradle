@@ -6,7 +6,7 @@ apply plugin: 'org.springframework.boot'
 mainClassName = 'kr.yerina.wmp.autonomousRegistration.AutonomousRegistrationApplication'
 sourceCompatibility = 1.8
 version = '0.0.1-SNAPSHOT'
-ext.packaging = 'jar'
+
 
 
 repositories {
@@ -30,7 +30,7 @@ buildscript {
 }
 
 dependencies {
-	/*compile('org.springframework.cloud:spring-cloud-starter-config')*/
+	compile('org.springframework.cloud:spring-cloud-starter-config')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
@@ -41,10 +41,29 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile('org.apache.commons:commons-lang3:3.4')
 	compile('org.apache.httpcomponents:httpclient:4.5.2')
+	compile('org.codehaus.janino:janino:2.7.8')
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+// Task "distZip" added by plugin "java-library-distribution":
+//distZip.shouldRunAfter(build)
+
+
+jar {
+	exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+
+	manifest {
+		attributes 'Main-Class': mainClassName,
+				'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+	}
+
+
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 	}
 }
