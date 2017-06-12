@@ -7,9 +7,14 @@ import kr.yerina.wmp.autonomousRegistration.repository.HolidayRepository;
 import kr.yerina.wmp.autonomousRegistration.repository.WorksRepository;
 import kr.yerina.wmp.autonomousRegistration.utils.DateUtility;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,10 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by philip on 2017-05-31.
@@ -38,17 +40,9 @@ public class WmpScheduler {
 
     //월~금 오후 5시 10분
     //초,분,시,일,월,요일, (년)
-    //@Scheduled(cron = "0 10 17 ? * MON-FRI", zone = "Asia/Seoul")
-    @Scheduled(cron = "0 10 9 ? * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 10 17 ? * MON-FRI", zone = "Asia/Seoul")
     public void workProc(){
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(factory);
-
-        HttpHeaders requestHeaders = new HttpHeaders();
-
         String url = "http://wmp.feelingk.com/login";
-
         String targetDate = DateUtility.getToday(DateUtility.SDF_YYYYMMDD_DASH);
         String addWorkUrl = "http://wmp.feelingk.com/works/add/Love5757?targetDate="+targetDate;
 
@@ -62,6 +56,11 @@ public class WmpScheduler {
             log.info("[scheduled][{}]",workList);
             if(!StringUtils.isEmpty(workList) && workList.size() > 0){
                 for (Work work : workList) {
+                    HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+                    RestTemplate restTemplate = new RestTemplate();
+                    restTemplate.setRequestFactory(factory);
+                    HttpHeaders requestHeaders = new HttpHeaders();
+
                     user.put("name", work.getName());
                     user.put("password", work.getPassword());
                     HttpEntity param = new HttpEntity(user, requestHeaders);
@@ -72,6 +71,29 @@ public class WmpScheduler {
                 }
             }
         }
+    }
+
+    @Scheduled(fixedDelay = 3000)
+    public void test(){
+        log.info("===================================");
+        log.info("fixedDelay = 3000");
+        log.info(String.valueOf(System.currentTimeMillis()));
+        log.info(DateUtility.getToday(DateUtility.SDF_YYYYMMDDHHMMSSM_DASH_DOT));
+        log.info(DateUtility.getToday(DateUtility.SDF_YYYYMMDD_SLASH));
+        log.info("===================================");
+    }
+
+    @Scheduled(fixedDelay = 5000, zone = "Asis/Seoul")
+    public void test2(){
+        log.info("===================================");
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+
+
+        log.info("fixedDelay = 5000, zone = \"Asis/Seoul\"");
+        log.info(DateUtility.getToday(DateUtility.SDF_YYYYMMDDHHMMSSM_DASH_DOT));
+        log.info(DateUtility.getToday(DateUtility.SDF_YYYYMMDD_SLASH));
+        log.info("===================================");
     }
 
 }

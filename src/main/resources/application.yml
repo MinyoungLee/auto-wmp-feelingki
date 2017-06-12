@@ -4,6 +4,7 @@
 logging:
   config: classpath:logback-spring.xml
 
+
 ---
 spring:
   profiles: dev
@@ -17,9 +18,16 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  jmx:
+    default-domain: AutonomousRegistrationApplication
+
+
+
 
 server:
   port: 7788
+
+
 
 
 ---
