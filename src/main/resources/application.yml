@@ -13,21 +13,19 @@ spring:
       enabled: true
   jpa:
     generate-ddl: true
+    properties:
+      hibernate:
+        jdbc: time_zone=Asia/Seoul
   datasource:
     url: jdbc:h2:~/test
     username: sa
     password:
     driver-class-name: org.h2.Driver
-  jmx:
-    default-domain: AutonomousRegistrationApplication
-
 
 
 
 server:
   port: 7788
-
-
 
 
 ---

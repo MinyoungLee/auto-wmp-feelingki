@@ -46,9 +46,6 @@
         <appender-ref ref="dailyRolling" />
     </logger>
 
-    <root level="${LOG_LEVEL}">
-        <appender-ref ref="dailyRolling" />
-    </root>
-
+    <root level="${LOG_LEVEL}" />
 
 </configuration>

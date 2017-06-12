@@ -40,11 +40,16 @@ public class WmpScheduler {
 
     //월~금 오후 5시 10분
     //초,분,시,일,월,요일, (년)
-    @Scheduled(cron = "0 10 17 ? * MON-FRI", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 10 17 ? * MON-FRI" ,zone = "Asia/Seoul")
     public void workProc(){
+
         String url = "http://wmp.feelingk.com/login";
-        String targetDate = DateUtility.getToday(DateUtility.SDF_YYYYMMDD_DASH);
-        String addWorkUrl = "http://wmp.feelingk.com/works/add/Love5757?targetDate="+targetDate;
+
+        SimpleDateFormat sdf = DateUtility.SDF_YYYYMMDD_DASH;
+        TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
+        sdf.setTimeZone(zone);
+        Date date = new Date();
+        String targetDate = sdf.format(date);
 
         List<Holiday> holidayList = holidayRepository.findAll();
         log.info("[holidayList][{}]", holidayList);
@@ -56,6 +61,7 @@ public class WmpScheduler {
             log.info("[scheduled][{}]",workList);
             if(!StringUtils.isEmpty(workList) && workList.size() > 0){
                 for (Work work : workList) {
+                    log.info("work " + work);
                     HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
                     RestTemplate restTemplate = new RestTemplate();
                     restTemplate.setRequestFactory(factory);
@@ -67,33 +73,13 @@ public class WmpScheduler {
                     String response = restTemplate.postForObject(url, param, String.class);
 
                     HttpEntity addWorkParam = new HttpEntity(work, requestHeaders);
+                    log.info("addWorkParam "+addWorkParam);
+                    log.info("work "+work);
+                    String addWorkUrl = "http://wmp.feelingk.com/works/add/"+work.getName()+"?targetDate="+targetDate;
+                    log.info("addWorkUrl "+ addWorkUrl);
                     String addWorkResponse = restTemplate.postForObject(addWorkUrl, addWorkParam, String.class);
                 }
             }
         }
     }
-
-    @Scheduled(fixedDelay = 3000)
-    public void test(){
-        log.info("===================================");
-        log.info("fixedDelay = 3000");
-        log.info(String.valueOf(System.currentTimeMillis()));
-        log.info(DateUtility.getToday(DateUtility.SDF_YYYYMMDDHHMMSSM_DASH_DOT));
-        log.info(DateUtility.getToday(DateUtility.SDF_YYYYMMDD_SLASH));
-        log.info("===================================");
-    }
-
-    @Scheduled(fixedDelay = 5000, zone = "Asis/Seoul")
-    public void test2(){
-        log.info("===================================");
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
-
-
-        log.info("fixedDelay = 5000, zone = \"Asis/Seoul\"");
-        log.info(DateUtility.getToday(DateUtility.SDF_YYYYMMDDHHMMSSM_DASH_DOT));
-        log.info(DateUtility.getToday(DateUtility.SDF_YYYYMMDD_SLASH));
-        log.info("===================================");
-    }
-
 }
