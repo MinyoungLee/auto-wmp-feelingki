@@ -37,7 +37,7 @@
                 <td th:text="${holiday.id}">...</td>
                 <td th:text="${holiday.holidayDate}">...</td>
                 <td>
-                    <form action="#" th:action="@{/delectHoliday}" method="get">
+                    <form action="#" th:action="@{/deleteHoliday}" method="get">
                         <input type="hidden" name="id" value="" th:value="${holiday.id}"/>
                         <input type="submit" value="삭제"/>
                     </form>

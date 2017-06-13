@@ -42,9 +42,9 @@ public class HolidayController {
         return "redirect:/holiday";
     }
 
-    @GetMapping("/delectHoliday")
+    @GetMapping("/deleteHoliday")
     String removeHoliday(@RequestParam(value = "id") int delectId){
-        log.debug("[delectId][{}]", delectId);
+        log.debug("[deleteId][{}]", delectId);
         holidayRepository.delete(delectId);
         return "redirect:/holiday";
     }

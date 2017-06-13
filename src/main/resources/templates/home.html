@@ -48,7 +48,7 @@
                 <td th:text="${work.secondCode}">...</td>
                 <td th:text="${work.workItem}">...</td>
                 <td>
-                    <form action="#" th:action="@{/delectWork}" method="get">
+                    <form action="#" th:action="@{/deleteWork}" method="get">
                         <input type="hidden" name="id" value="" th:value="${work.id}"/>
                         <input type="submit" value="삭제"/>
                     </form>

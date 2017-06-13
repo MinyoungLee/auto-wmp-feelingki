@@ -42,9 +42,7 @@
         <appender-ref ref="dailyRolling" />
     </logger>
 
-    <logger name="org.springframework.web" level="${LOG_LEVEL}">
-        <appender-ref ref="dailyRolling" />
-    </logger>
+    <logger name="org.springframework.web" level="${LOG_LEVEL}"/>
 
     <root level="${LOG_LEVEL}" />
 

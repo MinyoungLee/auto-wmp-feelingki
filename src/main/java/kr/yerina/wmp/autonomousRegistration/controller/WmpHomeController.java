@@ -12,6 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Created by philip on 2017-05-31.
@@ -46,8 +51,9 @@ public class WmpHomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/delectWork")
-    String removeWork(@RequestParam(value = "id") int delectId){
+    @GetMapping("/deleteWork")
+    String removeWork(@RequestParam(value = "id") int delectId, HttpServletRequest request){
+        log.info("Delete Remote Address IP : "+request.getRemoteAddr());
         log.debug("[delectId][{}]", delectId);
         worksRepository.delete(delectId);
         return "redirect:/";
