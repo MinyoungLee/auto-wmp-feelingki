@@ -39,11 +39,13 @@
     </appender>
 
     <logger name="kr.yerina.wmp.autonomousRegistration" level="${LOG_LEVEL}">
-        <appender-ref ref="dailyRolling" />
+        <appender-ref ref="async" />
     </logger>
 
     <logger name="org.springframework.web" level="${LOG_LEVEL}"/>
 
-    <root level="${LOG_LEVEL}" />
+    <root level="${LOG_LEVEL}" >
+        <appender-ref ref="async" />
+    </root>
 
 </configuration>

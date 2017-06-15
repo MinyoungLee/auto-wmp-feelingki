@@ -40,7 +40,7 @@ public class WmpScheduler {
 
     //월~금 오후 5시 10분
     //초,분,시,일,월,요일, (년)
-    @Scheduled(cron = "0 10 17 ? * MON-FRI" ,zone = "Asia/Seoul")
+    @Scheduled(cron = "0 30 17 ? * MON-FRI" ,zone = "Asia/Seoul")
     public void workProc(){
 
         String url = "http://wmp.feelingk.com/login";
@@ -71,13 +71,19 @@ public class WmpScheduler {
                     user.put("password", work.getPassword());
                     HttpEntity param = new HttpEntity(user, requestHeaders);
                     String response = restTemplate.postForObject(url, param, String.class);
+                    log.info("response : "+response);
 
-                    HttpEntity addWorkParam = new HttpEntity(work, requestHeaders);
+                    Map<String, String> workParam = new HashMap<>();
+                    workParam.put("code", work.getCode());
+                    workParam.put("secondCode",work.getSecondCode());
+                    workParam.put("workItem", work.getWorkItem());
+                    workParam.put("inputValue", String.valueOf(work.getInputValue()));
+                    HttpEntity addWorkParam = new HttpEntity(workParam, requestHeaders);
                     log.info("addWorkParam "+addWorkParam);
-                    log.info("work "+work);
                     String addWorkUrl = "http://wmp.feelingk.com/works/add/"+work.getName()+"?targetDate="+targetDate;
                     log.info("addWorkUrl "+ addWorkUrl);
                     String addWorkResponse = restTemplate.postForObject(addWorkUrl, addWorkParam, String.class);
+                    log.info("response : "+addWorkResponse);
                 }
             }
         }
